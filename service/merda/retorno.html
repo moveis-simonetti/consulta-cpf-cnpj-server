@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+
+    
+	<html lang="pt-br">
+    <head>
+        <meta http-equiv="Content-Language" content="pt-br" />
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>Comprovante de Situação Cadastral no CPF</title>
+
+        <script src="/scripts/srf/intercepta/js/captcha.js" type="text/javascript"></script>
+
+        <link href="/scripts/srf/intercepta/css/captcha.css" rel="stylesheet" type="text/css" />
+
+        <!--<script src="/js/Start.js" type="text/javascript"></script>-->
+
+        <!--<link href="/css/common.css" rel="stylesheet" type="text/css" />-->
+        <link href="./css/ComprovanteCPF.css" rel="stylesheet" type="text/css" />
+        <link href="./css/ComprovanteCPF_Impressao.css" rel="stylesheet" type="text/css" media="print" />
+		
+		
+		<link rel="stylesheet" href="//www.receita.fazenda.gov.br/tema/css/rfb.css"/>
+		<script data-main="//www.receita.fazenda.gov.br/tema/main-built.js" src="//www.receita.fazenda.gov.br/tema/require.js"></script>
+		<script src="//www.receita.fazenda.gov.br/estatistica/estatistica.js"></script>
+
+         <script type="text/javascript">
+             var PaginaComprovante = new (String);
+
+             // Registra os inputs que possuem tamanho máximo e qual o próximo da lista
+             function OpenWindowToPrint(TextoImpressao) {
+                 var janela;
+				 var str = window.location.href;
+				 var caminho = str.substring(0, str.indexOf("diversos_internet/") + 18);
+
+                 janela = window.open("", "_blank", "toolbar=yes,location=no,directories=no,status=yes,menubar=yes,titlebar=yes,scrollbars=yes,resizable=yes");
+                 
+                 janela.document.write(TextoImpressao);
+                 janela.document.close();
+                 
+/*
+testes hugo
+var doc = janela.document;
+doc.title = 'Comprovante de Inscrição no CPF';
+*/
+	
+//var headID = doc.getElementsByTagName("head")[0];
+/*
+var cssNode = document.createElement('link');
+cssNode.type = 'text/css';
+cssNode.rel = 'stylesheet';
+cssNode.href = caminho + 'css/ComprovanteCPF.css';
+cssNode.media = 'print';
+doc.head.appendChild(cssNode);
+//headID.appendChild(cssNode);
+
+//var bodyID = doc.getElementsByTagName("body")[0];
+var img = doc.createElement('img');
+img.setAttribute("src", caminho + 'Images/armasbra.gif');
+img.setAttribute("height", '85');
+img.setAttribute("width", '81');
+img.setAttribute("alt", 'Brasão da República');
+doc.body.appendChild(img);
+
+doc.close();
+*/
+
+
+             }
+
+             function NovaConsulta() {
+                 location.href = 'ConsultaPublica.asp';
+             }
+
+             function Regularizacao(opcao) {
+                 if (opcao == 'D') {
+                    location.href = "/Aplicacoes/ATCTA/cpf/regularizar/Regularizar.asp";
+                 }
+                 else {
+                     if (opcao == 'P') {
+						location.href = "/Aplicacoes/SSL/ATCTA/cpf/regularizar/Regularizar.asp";
+                     }
+                 }
+             }
+    </script>
+    </head>
+   
+    <body onload="javascript: MontaCabecalho(); MontaMenu();">
+        <form id="F_Consultar" action="" method="post">
+            <div class="divMiolo">                               
+                <div class="caixaConteudo">
+                    
+                    <div align="center">
+                        
+                        <div>
+                            <img alt="Brasão da República" height="85" src="/aplicacoes/ATCTA/cpf/images/armasbra.gif" width="81" />
+                            <p>
+                                <span class="clTitulo1">Ministério da Fazenda</span>
+                                <br />
+                                <span class="clTitulo2">Secretaria da Receita Federal do Brasil</span>
+                                <br /><br />
+                                <span class="clTitulo3">Comprovante de Situação Cadastral no CPF</span>
+                            </p>
+                        </div>
+                        <br />
+                        <div class="clConteudoEsquerda">
+                            <p>
+                                <span class="clConteudoDados">N<sup>o</sup> do CPF: <b>144.840.167-45</b></span>
+                                <br /><br />
+                                <span class="clConteudoDados">Nome da Pessoa Física: <b>VINICIUS DE SA SOUZA                                        </b></span>
+                                <br /><br />
+                                <span class="clConteudoDados">Data de Nascimento: <b>10/05/1993</b></span>
+                                <br /><br />                               
+                                <span class="clConteudoDados">Situação Cadastral: <b>REGULAR</b></span>
+                                <br /><br />
+                                <span class="clConteudoDados">Data da Inscrição: <b>22/12/2008</b></span>
+                                <br /><br />
+                                <span class="clConteudoDados">Digito Verificador: <b>00</b></span>								
+                            </p>
+                        </div>
+                        <div class="clConteudoEsquerda">
+                            <p>
+								 
+                                <span class="clConteudoComp">Comprovante emitido às: <b>16:47:26</b> do dia <b>10/02/2016</b> (hora e data de Brasília).</span><br />
+                                <span class="clConteudoComp">Código de controle do comprovante: <b>B7F8.BF81.D43F.AF38</b></span>
+                                <br />
+                                <span class="clConteudoComp">A autenticidade deste comprovante deverá ser confirmada
+                                    na página da Secretaria da Receita Federal do Brasil na Internet, no endereço <a
+                                        href="http://www.receita.fazenda.gov.br/Aplicacoes/ATCTA/cpf/CPFautentic.asp"
+                                        target="_blank">www.receita.fazenda.gov.br.</a> </span>
+                            </p>
+                        </div>                        
+                        <br />
+
+                        <script type="text/javascript">
+                            PaginaComprovante = '<!DOCTYPE html>';
+                            PaginaComprovante = '<html>';
+                            PaginaComprovante = PaginaComprovante + '<head>';
+                            PaginaComprovante = PaginaComprovante + '<title>Comprovante de Inscrição no CPF</title>';
+                            PaginaComprovante = PaginaComprovante + '<link href="css/ComprovanteCPF.css" rel="stylesheet" type="text/css" />';
+                            PaginaComprovante = PaginaComprovante + '<style type="text/css">';
+                            PaginaComprovante = PaginaComprovante + '@media print {';
+                            PaginaComprovante = PaginaComprovante + '.noprint { display: none; }';
+                            PaginaComprovante = PaginaComprovante + '.yesprint { display: block; }';
+                            PaginaComprovante = PaginaComprovante + '}';
+                            PaginaComprovante = PaginaComprovante + '</style>';
+                            PaginaComprovante = PaginaComprovante + '</head>';
+
+                            PaginaComprovante = PaginaComprovante + '<body>';                            
+                            PaginaComprovante = PaginaComprovante + '<div class="caixaConteudo">';
+                            PaginaComprovante = PaginaComprovante + '<div align="center">'
+                            PaginaComprovante = PaginaComprovante + '<div><img alt="Brasão da República" height="85" src="./images/armasbra.gif" width="81" /><p><span class="clTitulo1">Ministério da Fazenda</span><br /><span class="clTitulo2">Secretaria da Receita Federal do Brasil</span><br /><br /><span class="clTitulo3">Comprovante de Situação Cadastral no CPF</span></p></div><br />'
+                            PaginaComprovante = PaginaComprovante + '<div class="clConteudoEsquerda"><p>'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoDados">N<sup>o</sup> do CPF: <b>144.840.167-45</b></span><br /><br />'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoDados">Nome da Pessoa Física: <b>VINICIUS DE SA SOUZA                                        </b></span><br /><br />'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoDados">Data de Nascimento: <b>10/05/1993</b></span><br /><br />'                            
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoDados">Situação Cadastral: <b>REGULAR</b></span><br /><br />'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoDados">Data da Inscrição: <b>22/12/2008</b></span><br /><br />'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoDados">Digito Verificador: <b>00</b></span><br /><br />'
+                            PaginaComprovante = PaginaComprovante + '</p></div>'
+                            PaginaComprovante = PaginaComprovante + '<div class="clConteudoEsquerda"><p>'
+							PaginaComprovante = PaginaComprovante + '<span class="clConteudoDados"></span><br />'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoComp">Comprovante emitido às: <b>16:47:26</b> do dia <b>10/02/2016</b> (hora e data de Brasília).</span><br />'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoComp">Código de controle do comprovante: <b>B7F8.BF81.D43F.AF38</b></span><br />'
+                            PaginaComprovante = PaginaComprovante + '<span class="clConteudoComp">A autenticidade deste comprovante deverá ser confirmada na página da Secretaria da Receita Federal do Brasil na Internet, no endereço <a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATCTA/cpf/CPFautentic.asp" target="_blank">www.receita.fazenda.gov.br.</a> </span></p>'
+                            PaginaComprovante = PaginaComprovante + '</div>'
+							PaginaComprovante = PaginaComprovante +	'<p>Este documento não substitui o <a href="/Aplicacoes/ATCTA/CPF/ImpressaoComprovante/ConsultaImpressao.asp"><span class="clConteudoComp"> “Comprovante de Inscrição no CPF”</span></a>.</p>'
+							PaginaComprovante = PaginaComprovante +	'<p><span class="clConteudoRodape">(Modelo aprovado pela IN/RFB n<sup>o</sup> 1.548, de 13/02/2015.)</span></p>'
+							PaginaComprovante = PaginaComprovante + '<p><a href="javascript:window.print();"><img class="noprint" src="./Images/imprimir.GIF" alt="Imprimir" border="0" hspace="3"></a></p>';
+                            PaginaComprovante = PaginaComprovante + '</div></div>';                            
+			                PaginaComprovante = PaginaComprovante + '</body></html>';
+
+                        </script>
+
+                        
+                        <!--
+                            <br />
+                            <br />
+                            <br />
+                            <span class="clConteudoAviso">Favor dirigir-se a unidade da Secretaria da Receita Federal do Brasil para obter a informação desejada.</span>                                        
+                            <br />             
+    -->
+                        
+                        <div id="idRodape">
+                        
+                            <p>Este documento não substitui o <a href="/Aplicacoes/ATCTA/CPF/ImpressaoComprovante/ConsultaImpressao.asp"><span class="clConteudoComp"> “Comprovante de Inscrição no CPF”</span></a>.</p>                           
+							<p>
+								<span class="clConteudoRodape">(Modelo aprovado pela IN/RFB n<sup>o</sup> 1.548, de 13/02/2015.)</p>
+							</p>
+							<p><a href="Javascript:NovaConsulta();"><span class="clConteudoComp">Nova Consulta</span></a></p>
+                            <p id="idImpressao">
+                                <img src='/Aplicacoes/ATCTA/cpf/images/printer.gif' alt='Preparar Página para Impressão'
+                                    border='0' hspace='3' onclick="OpenWindowToPrint(PaginaComprovante)" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>
+    </html>

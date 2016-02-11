@@ -10,6 +10,7 @@ Além de ter o Go instalado no sistema operacional é necessário executar:
     go get github.com/go-martini/martini
     go get github.com/andelf/go-curl
     go get github.com/ryanuber/go-filecache
+    go get github.com/PuerkitoBio/goquery
     go build
 
 ###Observação

@@ -26,10 +26,17 @@ O binário chamado service será criado. Basta executá-lo e ele ficará ouvindo
 
 Basta acessar a URL como nos exemplos abaixo
 
-    http://localhost:3000/cpf/02462208992
-    http://localhost:3000/cnpj/10349094000162
+    http://localhost:3000/captcha/cpf/CPF
+
+Exemplo:
+
+    http://localhost:3000/captcha/cpf/02462208992
+    
 
 O retorno será um JSON com o conteúdo do Captcha a ser preenchido pelo usuário. O usuário deve preencher o captcha e a informação deve ser enviada para 
 
-    http://localhost:3000/cpf-detail/02462208992/captcha
-    http://localhost:3000/cnpj-detail/10349094000162/captcha
+    http://localhost:3000/cpf/CPF/DATANASC/CAPTCHA
+
+Exemplo:
+
+    http://localhost:3000/cpf/02462208992/15111978/r5HMnx

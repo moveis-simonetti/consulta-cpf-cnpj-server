@@ -2,6 +2,15 @@ package coderockr
 
 import "strings"
 
+type CpfData struct {
+    Numero string
+    Nome string
+    DataNascimento string
+    Situacao string
+    DataInscricao string
+    DigitoVerificador string
+}
+
 func FormatCpf(cpf string) string {
 	if len(cpf) < 11 || len(cpf) == 14 {
 		return cpf
@@ -30,4 +39,32 @@ func FormatCookie(cookie string) string {
 	}
 
 	return cookie
+}
+
+func FormatCpfData(unformated string) CpfData {
+	stringSlice := strings.Split(unformated, "\n")
+	cpf := CpfData{};
+	for _, text := range stringSlice {
+		data := strings.Split(text, ":")
+		if (len(data) == 2) {
+			switch data[0] {
+				case "No do CPF":
+					cpf.Numero = strings.Trim(data[1], " ")
+				case "Nome da Pessoa F\xedsica":
+					cpf.Nome = strings.Trim(data[1], " ")
+				case "Data de Nascimento":
+					cpf.DataNascimento = strings.Trim(data[1], " ")
+				case "Situa\xe7\xe3o Cadastral":
+					cpf.Situacao = strings.Trim(data[1], " ")
+				case "Data da Inscri\xe7\xe3o":
+					cpf.DataInscricao = strings.Trim(data[1], " ")
+				case "Digito Verificador":
+					cpf.DigitoVerificador = strings.Trim(data[1], " ")
+				default:
+					println(data[0])
+			}
+		}
+
+	}
+	return cpf
 }

@@ -13,7 +13,17 @@ import (
 	"time"
 	"coderockr"
 	"bufio"
+	"encoding/json"
 )
+
+type CpfData struct {
+    Numero string
+    Nome string
+    DataNascimento string
+    Situacao string
+    DataInscricao string
+    DigitoVerificador string
+}
 
 func main() {
 	m := martini.Classic()
@@ -34,8 +44,7 @@ func main() {
 	})
 
 	m.Get("/cpf/:id/:datnasc/:captcha", func(params martini.Params, writer http.ResponseWriter) string {
-		// writer.Header().Set("Content-Type", "application/json")
-		writer.Header().Set("Content-Type", "text/html")
+		writer.Header().Set("Content-Type", "application/json")
 		return getCpf(params["id"], params["datnasc"], params["captcha"])
 	})
 
@@ -103,19 +112,20 @@ func getCookieContent(path string) string {
             return ""
         }
     }
-
     return ""
 }
 
 func getCpf(id string, datnasc string, captcha string) string {
-	// cached := getFromCache("cnpj", id)
-	// if cached != "" {
-	//     return cached
-	// }
+	cached := getFromCache("cpf", id)
+	if cached != "" {
+		println("get from cache")
+	    return cached
+	}
 	cookie := coderockr.FormatCookie(getCookieContent("cache/cpf/"+id+"/cookie.jar"))
 	println(cookie+".")
 	easy := curl.EasyInit()
 	defer easy.Cleanup()
+	unformatedId := id
 	id = coderockr.FormatCpf(id)
 	datnasc = coderockr.FormatData(datnasc)
 
@@ -143,15 +153,20 @@ func getCpf(id string, datnasc string, captcha string) string {
 		fmt.Printf("ERROR: %v\n", err)
 	}
 
+	cpfData := ""
 	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((result)))
 	doc.Find("span").Each(func(j int, s *goquery.Selection) {
 		if s.HasClass("clConteudoDados") {
-			fmt.Printf("%q\n", s.Text())
+			cpfData = cpfData + s.Text() + "\n"
 		}
 	})
 
-	return result
-	// return saveOnCache("cnpj", id, result)
+	cpf, err := json.Marshal(coderockr.FormatCpfData(cpfData))
+	if err != nil {
+		fmt.Printf("ERROR: %v\n", err)
+	}
+
+	return saveOnCache("cpf", unformatedId, string(cpf))
 }
 
 func getCnpj(id string) string {
@@ -183,7 +198,7 @@ func getCnpj(id string) string {
 }
 
 func getFromCache(cacheType string, id string) string {
-	fc := filecache.New("cache/"+cacheType+"/"+id, 500*time.Second, nil)
+	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", 500*time.Second, nil)
 
 	fh, err := fc.Get()
 	if err != nil {
@@ -209,7 +224,7 @@ func saveOnCache(cacheType string, id string, content string) string {
 		return err
 	}
 
-	fc := filecache.New("cache/"+cacheType+"/"+id, 500*time.Second, updater)
+	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", 500*time.Second, updater)
 
 	_, err := fc.Get()
 	if err != nil {

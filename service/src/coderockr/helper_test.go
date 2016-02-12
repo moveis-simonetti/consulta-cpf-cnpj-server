@@ -65,3 +65,16 @@ func TestFormatCookie(t *testing.T) {
 		}
 	}
 }
+
+func TestFormatCpfData(t *testing.T ) {
+	unformated := "No do CPF: 024.622.089-92\nNome da Pessoa F\xedsica: ELTON LUIS MINETTO                                          \nData de Nascimento: 15/11/1978\nSitua\xe7\xe3o Cadastral: REGULAR\nData da Inscri\xe7\xe3o: 05/08/1996\nDigito Verificador: 00\n"
+	v := FormatCpfData(unformated)
+	expected := CpfData{"024.622.089-92", "ELTON LUIS MINETTO", "15/11/1978", "REGULAR", "05/08/1996", "00"}
+	if v != expected {
+		t.Error(
+			"For", unformated,
+			"expected", expected,
+			"got", v,
+		)
+	}
+}

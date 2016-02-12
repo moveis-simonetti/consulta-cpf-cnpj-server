@@ -3,3 +3,4 @@ service/src/github.com
 service/src/golang.org
 service/pkg
 service/service
+client/vendor

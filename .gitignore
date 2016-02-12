@@ -1,7 +1,4 @@
-service/cache/cnpj/*.png
-service/cache/cnpj/*.jar
-service/cache/cnpj/*.png
-service/cache/cnpj/*.jar
+service/cache
 service/src/github.com
 service/src/golang.org
 service/pkg

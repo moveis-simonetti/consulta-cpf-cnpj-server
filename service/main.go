@@ -48,10 +48,12 @@ func main() {
 }
 
 func getCaptcha(captchaType string, id string) string {
+	os.MkdirAll("cache/" + captchaType + "/" + id,0777);
+
 	easy := curl.EasyInit()
 	defer easy.Cleanup()
 
-	easy.Setopt(curl.OPT_COOKIEJAR, "cache/"+captchaType+"/"+id+"_cookie.jar")
+	easy.Setopt(curl.OPT_COOKIEJAR, "cache/"+captchaType+"/"+id+"/cookie.jar")
 	easy.Setopt(curl.OPT_VERBOSE, true)
 	if captchaType == "cpf" {
 		easy.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/Aplicacoes/ATCTA/CPF/captcha/gerarCaptcha.asp")
@@ -68,7 +70,7 @@ func getCaptcha(captchaType string, id string) string {
 		return true
 	})
 
-	fp, _ := os.Create("cache/" + captchaType + "/" + id + "_captcha.png")
+	fp, _ := os.Create("cache/" + captchaType + "/" + id + "/captcha.png")
 	defer fp.Close() // defer close
 
 	easy.Setopt(curl.OPT_WRITEDATA, fp)
@@ -79,7 +81,7 @@ func getCaptcha(captchaType string, id string) string {
 		println("ERROR", err.Error())
 	}
 
-	return captchaType + "/" + id + "_captcha.png"
+	return captchaType + "/" + id + "/captcha.png"
 }
 
 func getCookieContent(path string) string {
@@ -110,7 +112,7 @@ func getCpf(id string, datnasc string, captcha string) string {
 	// if cached != "" {
 	//     return cached
 	// }
-	cookie := coderockr.FormatCookie(getCookieContent("cache/cpf/"+id+"_cookie.jar"))
+	cookie := coderockr.FormatCookie(getCookieContent("cache/cpf/"+id+"/cookie.jar"))
 	println(cookie+".")
 	easy := curl.EasyInit()
 	defer easy.Cleanup()

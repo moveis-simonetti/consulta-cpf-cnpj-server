@@ -14,6 +14,13 @@ var testsCpf = []testpair{
 	{"634.651.328-15", "634.651.328-15"},
 }
 
+var testsCnpj = []testpair{
+	{"teste", "teste"},
+	{"10349094000162", "10.349.094/0001-62"},
+	{"10.349.094/0001-62", "10.349.094/0001-62"},
+	{"11731841000195", "11.731.841/0001-95"},
+}
+
 var testsData = []testpair{
 	{"teste", "teste"},
 	{"151178", "151178"},
@@ -30,6 +37,19 @@ var testsCookie = []testpair{
 func TestFormatCpf(t *testing.T) {
 	for _, pair := range testsCpf {
 		v := FormatCpf(pair.unformated)
+		if v != pair.formated {
+			t.Error(
+				"For", pair.unformated,
+				"expected", pair.formated,
+				"got", v,
+			)
+		}
+	}
+}
+
+func TestFormatCnpj(t *testing.T) {
+	for _, pair := range testsCnpj {
+		v := FormatCnpj(pair.unformated)
 		if v != pair.formated {
 			t.Error(
 				"For", pair.unformated,

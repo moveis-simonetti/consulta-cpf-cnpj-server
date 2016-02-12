@@ -19,6 +19,13 @@ func FormatCpf(cpf string) string {
 	return cpf[0:3] + "." + cpf[3:6] + "." + cpf[6:9] + "-" + cpf[9:11]
 }
 
+func FormatCnpj(cnpj string) string {
+	if len(cnpj) < 14 || len(cnpj) == 18 {
+		return cnpj
+	}
+	return cnpj[0:2] + "." + cnpj[2:5] + "." + cnpj[5:8] + "/" + cnpj[8:12] + "-" + cnpj[12:14]
+}
+
 func FormatData(data string) string {
 	if len(data) < 8 || len(data) == 10 {
 		return data

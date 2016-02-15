@@ -173,7 +173,17 @@ func getCnpj(id string, captcha string) string {
 	unformatedId := id
 	id = coderockr.FormatCnpj(id)
 
-	cookie := "flag=1;" + coderockr.FormatCookie(getCookieContent("cache/cnpj/"+unformatedId+"/cookie.jar"))
+	cookie := coderockr.FormatCookie(getCookieContent("cache/cnpj/"+unformatedId+"/cookie.jar"))
+
+	start := curl.EasyInit()
+	defer start.Cleanup()
+	start.Setopt(curl.OPT_HTTPHEADER, []string{"Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Content-Type:application/x-www-form-urlencoded","refer:http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/cnpjreva_solicitacao.asp","Cookie:"+cookie})
+	start.Setopt(curl.OPT_VERBOSE, true)
+	start.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/cnpjreva_solicitacao2.asp")
+	if err := start.Perform(); err != nil {
+		fmt.Printf("ERROR: %v\n", err)
+	}
+	cookie = "flag=1;" + cookie
 
 	firstUrl := curl.EasyInit()
 	defer firstUrl.Cleanup()

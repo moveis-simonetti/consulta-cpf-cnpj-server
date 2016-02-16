@@ -16,14 +16,14 @@ import (
 	"encoding/json"
 )
 
-type CpfData struct {
-    Numero string
-    Nome string
-    DataNascimento string
-    Situacao string
-    DataInscricao string
-    DigitoVerificador string
-}
+// type CpfData struct {
+//     Numero string
+//     Nome string
+//     DataNascimento string
+//     Situacao string
+//     DataInscricao string
+//     DigitoVerificador string
+// }
 
 func main() {
 	m := martini.Classic()
@@ -45,12 +45,20 @@ func main() {
 
 	m.Get("/cpf/:id/:datnasc/:captcha", func(params martini.Params, writer http.ResponseWriter) string {
 		writer.Header().Set("Content-Type", "application/json")
-		return getCpf(params["id"], params["datnasc"], params["captcha"])
+		cpf := getCpf(params["id"], params["datnasc"], params["captcha"])
+		if (cpf == "") {
+			writer.WriteHeader(http.StatusNotFound)
+		}
+		return cpf
 	})
 
 	m.Get("/cnpj/:id/:captcha", func(params martini.Params, writer http.ResponseWriter) string {
 		writer.Header().Set("Content-Type", "application/json")
-		return getCnpj(params["id"], params["captcha"])
+		cnpj := getCnpj(params["id"], params["captcha"])
+		if (cnpj == "") {
+			writer.WriteHeader(http.StatusNotFound)
+		}
+		return cnpj
 	})
 
 	m.Run()
@@ -157,6 +165,10 @@ func getCpf(id string, datnasc string, captcha string) string {
 		}
 	})
 
+	if (cpfData == "") {
+		return cpfData
+	}
+
 	cpf, err := json.Marshal(coderockr.FormatCpfData(cpfData))
 	if err != nil {
 		fmt.Printf("ERROR: %v\n", err)
@@ -247,15 +259,17 @@ func getCnpj(id string, captcha string) string {
 	cnpjData = strings.Replace(cnpjData, " ", "|", -1)
 	cnpjData = strings.Replace(cnpjData, "\t", "|", -1)
 	cnpjData = strings.Replace(cnpjData, "\n", "|", -1)
-	fmt.Printf("RESULT: %v\n", cnpjData)
-	return cnpjData
-
-	// cpf, err := json.Marshal(coderockr.FormatCpfData(cnpjData))
-	// if err != nil {
-	// 	fmt.Printf("ERROR: %v\n", err)
-	// }
-
-	// return saveOnCache("cpf", unformatedId, string(cpf))
+	if (cnpjData == "") {
+		return ""
+	}
+	fmt.Printf("RESULT:%+q\n", cnpjData)
+	cnpj := coderockr.FormatCnpjData(cnpjData)
+	// fmt.Printf("RESULT: %v\n", cnpj.NumeroInscricao)
+	json, err := json.Marshal(cnpj)
+	if err != nil {
+		fmt.Printf("ERROR: %v\n", err)
+	}
+	return saveOnCache("cnpj", unformatedId, string(json))
 }
 
 func getFromCache(cacheType string, id string) string {

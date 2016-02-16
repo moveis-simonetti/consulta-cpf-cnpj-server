@@ -22,6 +22,7 @@ $captcha = 'pZWp5c';
 $request = $client->get($host . '/cpf/' . $cpf . '/' . $datnasc . '/' . $captcha);
 $response = $request->send();
 $cpf = json_decode($response->getBody());
+//obs: se não for encontrado ou o captcha estiver errado a request vai retornar com o status 404
 var_dump($cpf);
 //exemplo do retorno
 // object(stdClass)#23 (6) {

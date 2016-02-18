@@ -1,6 +1,12 @@
 package coderockr
 
-import "testing"
+import (
+	"testing"
+	// "unicode"
+	// "fmt"
+    // "golang.org/x/text/transform"
+    // "golang.org/x/text/unicode/norm"
+)
 
 type testpair struct {
 	unformated string
@@ -98,6 +104,28 @@ func TestFormatCpfData(t *testing.T) {
 		)
 	}
 }
+
+// func isMn(r rune) bool {
+//     return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
+// }
+
+// func TestUnicodeFormat(t *testing.T) {
+// 	unformated := "C\xd3DIGO"
+// 	expected := "CÓDIGO"
+
+// 	tr := transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)
+//     // result, _, _ := transform.String(tr, "žůžo")
+//     result, _, _ := transform.String(tr, unformated)
+//     fmt.Println(result)
+
+// 	if result != expected {
+// 		t.Error(
+// 			"For", unformated,
+// 			"expected", expected,
+// 			"got", result,
+// 		)
+// 	}
+// }
 
 func TestFormatCnpjData(t *testing.T) {
 	unformated := "||||||||||||||Comprovante|de|Inscri\xe7\xe3o|e|de|Situa\xe7\xe3o|Cadastral<br>|||Contribuinte,|||<br>Confira|os|dados|de|Identifica\xe7\xe3o|da|Pessoa|Jur\xeddica|e,|se|houver|qualquer|diverg\xeancia,||||providencie|junto|\xe0|RFB|a|sua|atualiza\xe7\xe3o|cadastral.<br>||||||||||REP\xdaBLICA|FEDERATIVA|DO|BRASIL||||||||||<br>||||||||||CADASTRO|NACIONAL|DA|PESSOA|JUR\xcdDICA||||||||||<br>|||N\xdaMERO|DE|INSCRI\xc7\xc3O|||<br>|||10.349.094/0001-62||||||MATRIZ||||||<br>||||||COMPROVANTE|DE|INSCRI\xc7\xc3O|E|DE|SITUA\xc7\xc3O|CADASTRAL|||||||<br>|||DATA|DE|ABERTURA|||<br>|||19/09/2008|||<br>|||NOME|EMPRESARIAL|||<br>|||CODEROCKR|DESENVOLVIMENTO|DE|PROGRAMAS|LTDA|-|ME|||<br>|||T\xcdTULO|DO|ESTABELECIMENTO|(NOME|DE|FANTASIA)|||<br>||||CODEROCKR|&|CIA|LTDA|ME|||<br>|||C\xd3DIGO|E|DESCRI\xc7\xc3O|DA|ATIVIDADE|ECON\xd4MICA|PRINCIPAL|||<br>||||62.01-5-01|-|Desenvolvimento|de|programas|de|computador|sob|encomenda||||<br>|||C\xd3DIGO|E|DESCRI\xc7\xc3O|DAS|ATIVIDADES|ECON\xd4MICAS|SECUND\xc1RIAS|||<br>|||||N\xe3o|informada|||||<br>|||C\xd3DIGO|E|DESCRI\xc7\xc3O|DA|NATUREZA|JUR\xcdDICA|||<br>|||206-2|-|SOCIEDADE|EMPRESARIA|LIMITADA|||<br>|||LOGRADOURO|||<br>||||R|HENRIQUE|MEYER|||<br>|||N\xdaMERO|||<br>|||40|||<br>|||COMPLEMENTO|||<br>|||LOJA||1|||||||||||||||||||BOX|||1||||<br>|||CEP|||<br>||||89.201-405||||<br>|||BAIRRO/DISTRITO|||<br>|||CENTRO|||<br>|||MUNIC\xcdPIO|||<br>|||JOINVILLE|||<br>|||UF|||<br>|||SC|||<br>|||ENDERE\xc7O|ELETR\xd4NICO|||<br>||||adeassisfrutuoso@yahoo.com.br||||<br>|||TELEFONE|||<br>|||||||(49)|3323-8205|||||<br>|||ENTE|FEDERATIVO|RESPONS\xc1VEL|(EFR)|||<br>||||||*****||||||<br>|||SITUA\xc7\xc3O|CADASTRAL|||<br>||||ATIVA||||<br>|||DATA|DA|SITUA\xc7\xc3O|CADASTRAL|||<br>|||19/09/2008|||<br>|||MOTIVO|DE|SITUA\xc7\xc3O|CADASTRAL|||<br>||||||||<br>|||SITUA\xc7\xc3O|ESPECIAL|||<br>||||********||||<br>|||DATA|DA|SITUA\xc7\xc3O|ESPECIAL|||<br>||||********||||<br>||Aprovado|pela|Instru\xe7\xe3o|Normativa|RFB|n\xba|1.470,|de|30|de|maio|de|2014.|<br>||||||||||||Emitido|no|dia|16/02/2016|\xe0s||15:54:21||(data|e|hora|de|Bras\xedlia).|||||||||||||P\xe1gina:|1/1||||||||<br>Emitido|no|dia|16/02/2016|\xe0s||15:54:21||(data|e|hora|de|Bras\xedlia).|<br>P\xe1gina:|1/1<br>"

@@ -1,6 +1,11 @@
 package coderockr
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+	"golang.org/x/text/transform"
+    "golang.org/x/text/unicode/norm"
+)
 
 type CpfData struct {
 	Numero            string
@@ -101,6 +106,17 @@ func FormatCpfData(unformated string) CpfData {
 	return cpf
 }
 
+func isMn(r rune) bool {
+    return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
+}
+
+func unicodeFormat(text string) string {
+	tr := transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)
+    result, _, _ := transform.String(tr, text)
+
+    return result
+}
+
 func FormatCnpjData(unformated string) CnpjData {
 	cnpj := CnpjData{}
 	unformated = strings.Replace(unformated, "||", "", -1)
@@ -116,37 +132,37 @@ func FormatCnpjData(unformated string) CnpjData {
 		case "DATA DE ABERTURA":
 			cnpj.DataAbertura = strings.Trim(stringSlice[index+1], " ")
 		case "NOME EMPRESARIAL":
-			cnpj.NomeEmpresarial = strings.Trim(stringSlice[index+1], " ")
+			cnpj.NomeEmpresarial = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "T?TULO DO ESTABELECIMENTO (NOME DE FANTASIA)":
 		case "T\xcdTULO DO ESTABELECIMENTO (NOME DE FANTASIA)":
-			cnpj.NomeFantasia = strings.Trim(stringSlice[index+1], " ")
+			cnpj.NomeFantasia = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "C?DIGO E DESCRI??O DA ATIVIDADE ECON?MICA PRINCIPAL":
 		case "C\xd3DIGO E DESCRI\xc7\xc3O DA ATIVIDADE ECON\xd4MICA PRINCIPAL":
-			cnpj.AtividadeEconomicaPrincipal = strings.Trim(stringSlice[index+1], " ")
+			cnpj.AtividadeEconomicaPrincipal = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "C?DIGO E DESCRI??O DAS ATIVIDADES ECON?MICAS SECUND?RIAS":
 		case "C\xd3DIGO E DESCRI\xc7\xc3O DAS ATIVIDADES ECON\xd4MICAS SECUND\xc1RIAS":
 			value := strings.Trim(stringSlice[index+1], " ")
 			if value == "N?o informada" || value == "N\xe3o informada" {
 				value = "Não informada"
 			}
-			cnpj.AtividadeEconomicaSecundaria = value
+			cnpj.AtividadeEconomicaSecundaria = unicodeFormat(value)
 		case "C?DIGO E DESCRI??O DA NATUREZA JUR?DICA":
 		case "C\xd3DIGO E DESCRI\xc7\xc3O DA NATUREZA JUR\xcdDICA":
-			cnpj.NaturezaJuridica = strings.Trim(stringSlice[index+1], " ")
+			cnpj.NaturezaJuridica = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "LOGRADOURO":
-			cnpj.Logradouro = strings.Trim(stringSlice[index+1], " ")
+			cnpj.Logradouro = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "N?MERO":
 		case "N\xdaMERO":
-			cnpj.Numero = strings.Trim(stringSlice[index+1], " ")
+			cnpj.Numero = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "COMPLEMENTO":
-			cnpj.Complemento = strings.Trim(stringSlice[index+1], " ")
+			cnpj.Complemento = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "CEP":
-			cnpj.Cep = strings.Trim(stringSlice[index+1], " ")
+			cnpj.Cep = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "BAIRRO/DISTRITO":
-			cnpj.Bairro = strings.Trim(stringSlice[index+1], " ")
+			cnpj.Bairro = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "MUNIC?PIO":
 		case "MUNIC\xcdPIO":
-			cnpj.Municipio = strings.Trim(stringSlice[index+1], " ")
+			cnpj.Municipio = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "UF":
 			cnpj.Uf = strings.Trim(stringSlice[index+1], " ")
 		case "ENDERE?O ELETR?NICO":
@@ -156,7 +172,7 @@ func FormatCnpjData(unformated string) CnpjData {
 			cnpj.Telefone = strings.Trim(stringSlice[index+1], " ")
 		case "ENTE FEDERATIVO RESPONS?VEL (EFR)":
 		case "ENTE FEDERATIVO RESPONS\xc1VEL (EFR)":
-			cnpj.EnteFederativoResponsavel = strings.Trim(stringSlice[index+1], " ")
+			cnpj.EnteFederativoResponsavel = unicodeFormat(strings.Trim(stringSlice[index+1], " "))
 		case "SITUA??O CADASTRAL":
 		case "SITUA\xc7\xc3O CADASTRAL":
 			cnpj.Situacao = strings.Trim(stringSlice[index+1], " ")

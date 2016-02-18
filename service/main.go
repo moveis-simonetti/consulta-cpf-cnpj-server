@@ -44,7 +44,7 @@ func main() {
 	})
 
 	m.Get("/cnpj/:id/:captcha", func(params martini.Params, writer http.ResponseWriter) string {
-		writer.Header().Set("Content-Type", "application/json")
+		writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 		cnpj := getCnpj(params["id"], params["captcha"])
 		if cnpj == "" {
 			writer.WriteHeader(http.StatusNotFound)

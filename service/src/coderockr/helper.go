@@ -1,7 +1,6 @@
 package coderockr
 
 import "strings"
-// import "fmt"
 
 type CpfData struct {
 	Numero            string
@@ -109,71 +108,70 @@ func FormatCnpjData(unformated string) CnpjData {
 	stringSlice := strings.Split(unformated, "<br>")
 	for index, text := range stringSlice {
 		text = strings.Trim(text, " ")
-		// fmt.Printf("TEXTO:%+q\n", text)
 		switch text {
-			case "N?MERO DE INSCRI??O":
-			case "N\xdaMERO DE INSCRI\xc7\xc3O":
-				value := strings.Trim(stringSlice[index+1], " ")
-				cnpj.NumeroInscricao = value[0:18] + " " + value[18:]
-			case "DATA DE ABERTURA":
-				cnpj.DataAbertura = strings.Trim(stringSlice[index+1], " ")
-			case "NOME EMPRESARIAL":
-				cnpj.NomeEmpresarial = strings.Trim(stringSlice[index+1], " ")
-			case "T?TULO DO ESTABELECIMENTO (NOME DE FANTASIA)":
-			case "T\xcdTULO DO ESTABELECIMENTO (NOME DE FANTASIA)":
-				cnpj.NomeFantasia = strings.Trim(stringSlice[index+1], " ")
-			case "C?DIGO E DESCRI??O DA ATIVIDADE ECON?MICA PRINCIPAL":
-			case "C\xd3DIGO E DESCRI\xc7\xc3O DA ATIVIDADE ECON\xd4MICA PRINCIPAL":
-				cnpj.AtividadeEconomicaPrincipal = strings.Trim(stringSlice[index+1], " ")
-			case "C?DIGO E DESCRI??O DAS ATIVIDADES ECON?MICAS SECUND?RIAS":
-			case "C\xd3DIGO E DESCRI\xc7\xc3O DAS ATIVIDADES ECON\xd4MICAS SECUND\xc1RIAS":
-				value := strings.Trim(stringSlice[index+1], " ")
-				if (value == "N?o informada" || value == "N\xe3o informada") {
-					value = "Não informada"
-				}
-				cnpj.AtividadeEconomicaSecundaria = value
-			case "C?DIGO E DESCRI??O DA NATUREZA JUR?DICA":
-			case "C\xd3DIGO E DESCRI\xc7\xc3O DA NATUREZA JUR\xcdDICA":
-				cnpj.NaturezaJuridica = strings.Trim(stringSlice[index+1], " ")
-			case "LOGRADOURO":
-				cnpj.Logradouro = strings.Trim(stringSlice[index+1], " ")
-			case "N?MERO":
-			case "N\xdaMERO":
-				cnpj.Numero = strings.Trim(stringSlice[index+1], " ")
-			case "COMPLEMENTO":
-				cnpj.Complemento = strings.Trim(stringSlice[index+1], " ")
-			case "CEP":
-				cnpj.Cep = strings.Trim(stringSlice[index+1], " ")
-			case "BAIRRO/DISTRITO":
-				cnpj.Bairro = strings.Trim(stringSlice[index+1], " ")
-			case "MUNIC?PIO":
-			case "MUNIC\xcdPIO":
-				cnpj.Municipio = strings.Trim(stringSlice[index+1], " ")
-			case "UF":
-				cnpj.Uf = strings.Trim(stringSlice[index+1], " ")
-			case "ENDERE?O ELETR?NICO":
-			case "ENDERE\xc7O ELETR\xd4NICO":
-				cnpj.EnderecoEletronico = strings.Trim(stringSlice[index+1], " ")
-			case "TELEFONE":
-				cnpj.Telefone = strings.Trim(stringSlice[index+1], " ")
-			case "ENTE FEDERATIVO RESPONS?VEL (EFR)":
-			case "ENTE FEDERATIVO RESPONS\xc1VEL (EFR)":
-				cnpj.EnteFederativoResponsavel = strings.Trim(stringSlice[index+1], " ")
-			case "SITUA??O CADASTRAL":
-			case "SITUA\xc7\xc3O CADASTRAL":
-				cnpj.Situacao = strings.Trim(stringSlice[index+1], " ")
-			case "DATA DA SITUA??O CADASTRAL":
-			case "DATA DA SITUA\xc7\xc3O CADASTRAL":
-				cnpj.DataSituacao = strings.Trim(stringSlice[index+1], " ")
-			case "MOTIVO DE SITUA??O CADASTRAL":
-			case "MOTIVO DE SITUA\xc7\xc3O CADASTRAL":
-				cnpj.MotivoSituacao = strings.Trim(stringSlice[index+1], " ")
-			case "SITUA??O ESPECIAL":
-			case "SITUA\xc7\xc3O ESPECIAL":
-				cnpj.SituacaoEspecial = strings.Trim(stringSlice[index+1], " ")
-			case "DATA DA SITUA??O ESPECIAL":
-			case "DATA DA SITUA\xc7\xc3O ESPECIAL":
-				cnpj.DataSituacaoEspecial = strings.Trim(stringSlice[index+1], " ")
+		case "N?MERO DE INSCRI??O":
+		case "N\xdaMERO DE INSCRI\xc7\xc3O":
+			value := strings.Trim(stringSlice[index+1], " ")
+			cnpj.NumeroInscricao = value[0:18] + " " + value[18:]
+		case "DATA DE ABERTURA":
+			cnpj.DataAbertura = strings.Trim(stringSlice[index+1], " ")
+		case "NOME EMPRESARIAL":
+			cnpj.NomeEmpresarial = strings.Trim(stringSlice[index+1], " ")
+		case "T?TULO DO ESTABELECIMENTO (NOME DE FANTASIA)":
+		case "T\xcdTULO DO ESTABELECIMENTO (NOME DE FANTASIA)":
+			cnpj.NomeFantasia = strings.Trim(stringSlice[index+1], " ")
+		case "C?DIGO E DESCRI??O DA ATIVIDADE ECON?MICA PRINCIPAL":
+		case "C\xd3DIGO E DESCRI\xc7\xc3O DA ATIVIDADE ECON\xd4MICA PRINCIPAL":
+			cnpj.AtividadeEconomicaPrincipal = strings.Trim(stringSlice[index+1], " ")
+		case "C?DIGO E DESCRI??O DAS ATIVIDADES ECON?MICAS SECUND?RIAS":
+		case "C\xd3DIGO E DESCRI\xc7\xc3O DAS ATIVIDADES ECON\xd4MICAS SECUND\xc1RIAS":
+			value := strings.Trim(stringSlice[index+1], " ")
+			if value == "N?o informada" || value == "N\xe3o informada" {
+				value = "Não informada"
+			}
+			cnpj.AtividadeEconomicaSecundaria = value
+		case "C?DIGO E DESCRI??O DA NATUREZA JUR?DICA":
+		case "C\xd3DIGO E DESCRI\xc7\xc3O DA NATUREZA JUR\xcdDICA":
+			cnpj.NaturezaJuridica = strings.Trim(stringSlice[index+1], " ")
+		case "LOGRADOURO":
+			cnpj.Logradouro = strings.Trim(stringSlice[index+1], " ")
+		case "N?MERO":
+		case "N\xdaMERO":
+			cnpj.Numero = strings.Trim(stringSlice[index+1], " ")
+		case "COMPLEMENTO":
+			cnpj.Complemento = strings.Trim(stringSlice[index+1], " ")
+		case "CEP":
+			cnpj.Cep = strings.Trim(stringSlice[index+1], " ")
+		case "BAIRRO/DISTRITO":
+			cnpj.Bairro = strings.Trim(stringSlice[index+1], " ")
+		case "MUNIC?PIO":
+		case "MUNIC\xcdPIO":
+			cnpj.Municipio = strings.Trim(stringSlice[index+1], " ")
+		case "UF":
+			cnpj.Uf = strings.Trim(stringSlice[index+1], " ")
+		case "ENDERE?O ELETR?NICO":
+		case "ENDERE\xc7O ELETR\xd4NICO":
+			cnpj.EnderecoEletronico = strings.Trim(stringSlice[index+1], " ")
+		case "TELEFONE":
+			cnpj.Telefone = strings.Trim(stringSlice[index+1], " ")
+		case "ENTE FEDERATIVO RESPONS?VEL (EFR)":
+		case "ENTE FEDERATIVO RESPONS\xc1VEL (EFR)":
+			cnpj.EnteFederativoResponsavel = strings.Trim(stringSlice[index+1], " ")
+		case "SITUA??O CADASTRAL":
+		case "SITUA\xc7\xc3O CADASTRAL":
+			cnpj.Situacao = strings.Trim(stringSlice[index+1], " ")
+		case "DATA DA SITUA??O CADASTRAL":
+		case "DATA DA SITUA\xc7\xc3O CADASTRAL":
+			cnpj.DataSituacao = strings.Trim(stringSlice[index+1], " ")
+		case "MOTIVO DE SITUA??O CADASTRAL":
+		case "MOTIVO DE SITUA\xc7\xc3O CADASTRAL":
+			cnpj.MotivoSituacao = strings.Trim(stringSlice[index+1], " ")
+		case "SITUA??O ESPECIAL":
+		case "SITUA\xc7\xc3O ESPECIAL":
+			cnpj.SituacaoEspecial = strings.Trim(stringSlice[index+1], " ")
+		case "DATA DA SITUA??O ESPECIAL":
+		case "DATA DA SITUA\xc7\xc3O ESPECIAL":
+			cnpj.DataSituacaoEspecial = strings.Trim(stringSlice[index+1], " ")
 		}
 	}
 

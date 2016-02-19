@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	curl "github.com/andelf/go-curl"
+	iconv "github.com/andelf/iconv-go"
 	"github.com/go-martini/martini"
 	"github.com/ryanuber/go-filecache"
 	"io/ioutil"
@@ -14,7 +15,6 @@ import (
 	"os"
 	"strings"
 	"time"
-	iconv "github.com/andelf/iconv-go"
 )
 
 func main() {
@@ -150,7 +150,7 @@ func getCpf(id string, datnasc string, captcha string) string {
 		return ""
 	}
 
-	output,err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
+	output, err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
 	if err != nil {
 		fmt.Printf("ERROR: %v\n", err)
 	}
@@ -244,7 +244,7 @@ func getCnpj(id string, captcha string) string {
 		return ""
 	}
 
-	output,err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
+	output, err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
 	if err != nil {
 		fmt.Printf("ERROR: %v\n", err)
 	}

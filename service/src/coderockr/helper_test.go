@@ -2,10 +2,6 @@ package coderockr
 
 import (
 	"testing"
-	// "unicode"
-	// "fmt"
-    // "golang.org/x/text/transform"
-    // "golang.org/x/text/unicode/norm"
 )
 
 type testpair struct {
@@ -15,7 +11,7 @@ type testpair struct {
 
 type testCnpfPair struct {
 	unformated string
-	formated CnpjData
+	formated   CnpjData
 }
 
 var testsCpf = []testpair{

@@ -14,6 +14,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	iconv "github.com/andelf/iconv-go"
 )
 
 func main() {
@@ -146,16 +147,23 @@ func getCpf(id string, datnasc string, captcha string) string {
 
 	if err := easy.Perform(); err != nil {
 		fmt.Printf("ERROR: %v\n", err)
+		return ""
+	}
+
+	output,err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
+	if err != nil {
+		fmt.Printf("ERROR: %v\n", err)
 	}
 
 	cpfData := ""
-	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((result)))
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((output)))
 	doc.Find("span").Each(func(j int, s *goquery.Selection) {
 		if s.HasClass("clConteudoDados") {
 			cpfData = cpfData + s.Text() + "\n"
 		}
 	})
-
+	fmt.Printf("RESULT:%+q\n", cpfData)
+	
 	if cpfData == "" {
 		return cpfData
 	}
@@ -237,20 +245,27 @@ func getCnpj(id string, captcha string) string {
 
 	if err := lastUrl.Perform(); err != nil {
 		fmt.Printf("ERROR: %v\n", err)
+		return ""
+	}
+
+	output,err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
+	if err != nil {
+		fmt.Printf("ERROR: %v\n", err)
 	}
 
 	cnpjData := ""
-	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((result)))
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((output)))
 	doc.Find("font").Each(func(j int, s *goquery.Selection) {
 		cnpjData = cnpjData + s.Text() + "<br>"
 	})
+	fmt.Printf("RESULT:%+q\n", cnpjData)
 	cnpjData = strings.Replace(cnpjData, " ", "|", -1)
 	cnpjData = strings.Replace(cnpjData, "\t", "|", -1)
 	cnpjData = strings.Replace(cnpjData, "\n", "|", -1)
 	if cnpjData == "" {
 		return ""
 	}
-	fmt.Printf("RESULT:%+q\n", cnpjData)
+
 	cnpj := coderockr.FormatCnpjData(cnpjData)
 	json, err := json.Marshal(cnpj)
 	if err != nil {

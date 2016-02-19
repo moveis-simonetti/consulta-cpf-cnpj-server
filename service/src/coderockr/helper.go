@@ -2,9 +2,6 @@ package coderockr
 
 import (
 	"strings"
-	// "unicode"
-	// "golang.org/x/text/transform"
- //    "golang.org/x/text/unicode/norm"
 )
 
 type CpfData struct {

@@ -88,7 +88,7 @@ func FormatCpfData(unformated string) CpfData {
 				cpf.Nome = strings.Trim(data[1], " ")
 			case "Data de Nascimento":
 				cpf.DataNascimento = strings.Trim(data[1], " ")
-			case "Situaçãoo Cadastral":
+			case "Situação Cadastral":
 				cpf.Situacao = strings.Trim(data[1], " ")
 			case "Data da Inscrição":
 				cpf.DataInscricao = strings.Trim(data[1], " ")

@@ -162,8 +162,6 @@ func getCpf(id string, datnasc string, captcha string) string {
 			cpfData = cpfData + s.Text() + "\n"
 		}
 	})
-	fmt.Printf("RESULT:%+q\n", cpfData)
-	
 	if cpfData == "" {
 		return cpfData
 	}
@@ -203,8 +201,6 @@ func getCnpj(id string, captcha string) string {
 	firstUrl.Setopt(curl.OPT_VERBOSE, false)
 	firstUrl.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/valida.asp")
 	postdata := "origem=comprovante&cnpj=" + unformatedId + "&txtTexto_captcha_serpro_gov_br=" + captcha + "&submit1=Consultar&search_type=cnpj"
-	fmt.Printf("Post data: %v\n", postdata)
-	fmt.Printf("Post data: %v\n", len(postdata))
 	firstUrl.Setopt(curl.OPT_POST, true)
 	firstUrl.Setopt(curl.OPT_POSTFIELDS, postdata)
 	firstUrl.Setopt(curl.OPT_POSTFIELDSIZE, len(postdata))
@@ -258,7 +254,6 @@ func getCnpj(id string, captcha string) string {
 	doc.Find("font").Each(func(j int, s *goquery.Selection) {
 		cnpjData = cnpjData + s.Text() + "<br>"
 	})
-	fmt.Printf("RESULT:%+q\n", cnpjData)
 	cnpjData = strings.Replace(cnpjData, " ", "|", -1)
 	cnpjData = strings.Replace(cnpjData, "\t", "|", -1)
 	cnpjData = strings.Replace(cnpjData, "\n", "|", -1)

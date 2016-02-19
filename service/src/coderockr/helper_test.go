@@ -98,7 +98,7 @@ func TestFormatCookie(t *testing.T) {
 }
 
 func TestFormatCpfData(t *testing.T) {
-	unformated := "No do CPF: 024.622.089-92\nNome da Pessoa F\xedsica: ELTON LUIS MINETTO                                          \nData de Nascimento: 15/11/1978\nSitua\xe7\xe3o Cadastral: REGULAR\nData da Inscri\xe7\xe3o: 05/08/1996\nDigito Verificador: 00\n"
+	unformated := "No do CPF: 024.622.089-92\nNome da Pessoa F\u00edsica: ELTON LUIS MINETTO                                          \nData de Nascimento: 15/11/1978\nSitua\u00e7\u00e3o Cadastral: REGULAR\nData da Inscri\u00e7\u00e3o: 05/08/1996\nDigito Verificador: 00\n"
 	v := FormatCpfData(unformated)
 	expected := CpfData{"024.622.089-92", "ELTON LUIS MINETTO", "15/11/1978", "REGULAR", "05/08/1996", "00"}
 	if v != expected {

@@ -15,6 +15,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"errors"
 )
 
 const cacheTime = 500;
@@ -272,10 +273,14 @@ func getCnpj(id string, captcha string) string {
 }
 
 func getFromCache(cacheType string, id string) string {
-	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", cacheTime*time.Second, nil)
+	updater := func(path string) error {
+		return errors.New("expired")
+	}
+	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", cacheTime*time.Second, updater)
 
 	fh, err := fc.Get()
 	if err != nil {
+		println("error in file")
 		return ""
 	}
 

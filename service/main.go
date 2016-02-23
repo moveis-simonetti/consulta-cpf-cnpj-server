@@ -17,6 +17,8 @@ import (
 	"time"
 )
 
+const cacheTime = 500;
+
 func main() {
 	m := martini.Classic()
 	m.Use(martini.Static("cache"))
@@ -270,7 +272,7 @@ func getCnpj(id string, captcha string) string {
 }
 
 func getFromCache(cacheType string, id string) string {
-	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", 500*time.Second, nil)
+	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", cacheTime*time.Second, nil)
 
 	fh, err := fc.Get()
 	if err != nil {
@@ -296,7 +298,7 @@ func saveOnCache(cacheType string, id string, content string) string {
 		return err
 	}
 
-	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", 500*time.Second, updater)
+	fc := filecache.New("cache/"+cacheType+"/"+id+"/result.json", cacheTime*time.Second, updater)
 
 	_, err := fc.Get()
 	if err != nil {

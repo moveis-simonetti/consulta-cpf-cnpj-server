@@ -2,15 +2,16 @@ package coderockr
 
 import (
 	"testing"
-	// "unicode"
-	// "fmt"
-    // "golang.org/x/text/transform"
-    // "golang.org/x/text/unicode/norm"
 )
 
 type testpair struct {
 	unformated string
 	formated   string
+}
+
+type testCnpfPair struct {
+	unformated string
+	formated   CnpjData
 }
 
 var testsCpf = []testpair{
@@ -93,7 +94,7 @@ func TestFormatCookie(t *testing.T) {
 }
 
 func TestFormatCpfData(t *testing.T) {
-	unformated := "No do CPF: 024.622.089-92\nNome da Pessoa F\xedsica: ELTON LUIS MINETTO                                          \nData de Nascimento: 15/11/1978\nSitua\xe7\xe3o Cadastral: REGULAR\nData da Inscri\xe7\xe3o: 05/08/1996\nDigito Verificador: 00\n"
+	unformated := "No do CPF: 024.622.089-92\nNome da Pessoa F\u00edsica: ELTON LUIS MINETTO                                          \nData de Nascimento: 15/11/1978\nSitua\u00e7\u00e3o Cadastral: REGULAR\nData da Inscri\u00e7\u00e3o: 05/08/1996\nDigito Verificador: 00\n"
 	v := FormatCpfData(unformated)
 	expected := CpfData{"024.622.089-92", "ELTON LUIS MINETTO", "15/11/1978", "REGULAR", "05/08/1996", "00"}
 	if v != expected {
@@ -105,162 +106,24 @@ func TestFormatCpfData(t *testing.T) {
 	}
 }
 
-// func isMn(r rune) bool {
-//     return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
-// }
-
-// func TestUnicodeFormat(t *testing.T) {
-// 	unformated := "C\xd3DIGO"
-// 	expected := "CÓDIGO"
-
-// 	tr := transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)
-//     // result, _, _ := transform.String(tr, "žůžo")
-//     result, _, _ := transform.String(tr, unformated)
-//     fmt.Println(result)
-
-// 	if result != expected {
-// 		t.Error(
-// 			"For", unformated,
-// 			"expected", expected,
-// 			"got", result,
-// 		)
-// 	}
-// }
-
 func TestFormatCnpjData(t *testing.T) {
-	unformated := "||||||||||||||Comprovante|de|Inscri\xe7\xe3o|e|de|Situa\xe7\xe3o|Cadastral<br>|||Contribuinte,|||<br>Confira|os|dados|de|Identifica\xe7\xe3o|da|Pessoa|Jur\xeddica|e,|se|houver|qualquer|diverg\xeancia,||||providencie|junto|\xe0|RFB|a|sua|atualiza\xe7\xe3o|cadastral.<br>||||||||||REP\xdaBLICA|FEDERATIVA|DO|BRASIL||||||||||<br>||||||||||CADASTRO|NACIONAL|DA|PESSOA|JUR\xcdDICA||||||||||<br>|||N\xdaMERO|DE|INSCRI\xc7\xc3O|||<br>|||10.349.094/0001-62||||||MATRIZ||||||<br>||||||COMPROVANTE|DE|INSCRI\xc7\xc3O|E|DE|SITUA\xc7\xc3O|CADASTRAL|||||||<br>|||DATA|DE|ABERTURA|||<br>|||19/09/2008|||<br>|||NOME|EMPRESARIAL|||<br>|||CODEROCKR|DESENVOLVIMENTO|DE|PROGRAMAS|LTDA|-|ME|||<br>|||T\xcdTULO|DO|ESTABELECIMENTO|(NOME|DE|FANTASIA)|||<br>||||CODEROCKR|&|CIA|LTDA|ME|||<br>|||C\xd3DIGO|E|DESCRI\xc7\xc3O|DA|ATIVIDADE|ECON\xd4MICA|PRINCIPAL|||<br>||||62.01-5-01|-|Desenvolvimento|de|programas|de|computador|sob|encomenda||||<br>|||C\xd3DIGO|E|DESCRI\xc7\xc3O|DAS|ATIVIDADES|ECON\xd4MICAS|SECUND\xc1RIAS|||<br>|||||N\xe3o|informada|||||<br>|||C\xd3DIGO|E|DESCRI\xc7\xc3O|DA|NATUREZA|JUR\xcdDICA|||<br>|||206-2|-|SOCIEDADE|EMPRESARIA|LIMITADA|||<br>|||LOGRADOURO|||<br>||||R|HENRIQUE|MEYER|||<br>|||N\xdaMERO|||<br>|||40|||<br>|||COMPLEMENTO|||<br>|||LOJA||1|||||||||||||||||||BOX|||1||||<br>|||CEP|||<br>||||89.201-405||||<br>|||BAIRRO/DISTRITO|||<br>|||CENTRO|||<br>|||MUNIC\xcdPIO|||<br>|||JOINVILLE|||<br>|||UF|||<br>|||SC|||<br>|||ENDERE\xc7O|ELETR\xd4NICO|||<br>||||adeassisfrutuoso@yahoo.com.br||||<br>|||TELEFONE|||<br>|||||||(49)|3323-8205|||||<br>|||ENTE|FEDERATIVO|RESPONS\xc1VEL|(EFR)|||<br>||||||*****||||||<br>|||SITUA\xc7\xc3O|CADASTRAL|||<br>||||ATIVA||||<br>|||DATA|DA|SITUA\xc7\xc3O|CADASTRAL|||<br>|||19/09/2008|||<br>|||MOTIVO|DE|SITUA\xc7\xc3O|CADASTRAL|||<br>||||||||<br>|||SITUA\xc7\xc3O|ESPECIAL|||<br>||||********||||<br>|||DATA|DA|SITUA\xc7\xc3O|ESPECIAL|||<br>||||********||||<br>||Aprovado|pela|Instru\xe7\xe3o|Normativa|RFB|n\xba|1.470,|de|30|de|maio|de|2014.|<br>||||||||||||Emitido|no|dia|16/02/2016|\xe0s||15:54:21||(data|e|hora|de|Bras\xedlia).|||||||||||||P\xe1gina:|1/1||||||||<br>Emitido|no|dia|16/02/2016|\xe0s||15:54:21||(data|e|hora|de|Bras\xedlia).|<br>P\xe1gina:|1/1<br>"
-	v := FormatCnpjData(unformated)
+	unformated := "||||||||||||||Comprovante|de|Inscri\u00e7\u00e3o|e|de|Situa\u00e7\u00e3o|Cadastral<br>|||Contribuinte,|||<br>Confira|os|dados|de|Identifica\u00e7\u00e3o|da|Pessoa|Jur\u00eddica|e,|se|houver|qualquer|diverg\u00eancia,||||providencie|junto|\u00e0|RFB|a|sua|atualiza\u00e7\u00e3o|cadastral.<br>||||||||||REP\u00daBLICA|FEDERATIVA|DO|BRASIL||||||||||<br>||||||||||CADASTRO|NACIONAL|DA|PESSOA|JUR\u00cdDICA||||||||||<br>|||N\u00daMERO|DE|INSCRI\u00c7\u00c3O|||<br>|||10.349.094/0001-62||||||MATRIZ||||||<br>||||||COMPROVANTE|DE|INSCRI\u00c7\u00c3O|E|DE|SITUA\u00c7\u00c3O|CADASTRAL|||||||<br>|||DATA|DE|ABERTURA|||<br>|||19/09/2008|||<br>|||NOME|EMPRESARIAL|||<br>|||CODEROCKR|DESENVOLVIMENTO|DE|PROGRAMAS|LTDA|-|ME|||<br>|||T\u00cdTULO|DO|ESTABELECIMENTO|(NOME|DE|FANTASIA)|||<br>||||CODEROCKR|&|CIA|LTDA|ME|||<br>|||C\u00d3DIGO|E|DESCRI\u00c7\u00c3O|DA|ATIVIDADE|ECON\u00d4MICA|PRINCIPAL|||<br>||||62.01-5-01|-|Desenvolvimento|de|programas|de|computador|sob|encomenda||||<br>|||C\u00d3DIGO|E|DESCRI\u00c7\u00c3O|DAS|ATIVIDADES|ECON\u00d4MICAS|SECUND\u00c1RIAS|||<br>|||||N\u00e3o|informada|||||<br>|||C\u00d3DIGO|E|DESCRI\u00c7\u00c3O|DA|NATUREZA|JUR\u00cdDICA|||<br>|||206-2|-|SOCIEDADE|EMPRESARIA|LIMITADA|||<br>|||LOGRADOURO|||<br>||||R|HENRIQUE|MEYER|||<br>|||N\u00daMERO|||<br>|||40|||<br>|||COMPLEMENTO|||<br>|||LOJA||1|||||||||||||||||||BOX|||1||||<br>|||CEP|||<br>||||89.201-405||||<br>|||BAIRRO/DISTRITO|||<br>|||CENTRO|||<br>|||MUNIC\u00cdPIO|||<br>|||JOINVILLE|||<br>|||UF|||<br>|||SC|||<br>|||ENDERE\u00c7O|ELETR\u00d4NICO|||<br>||||adeassisfrutuoso@yahoo.com.br||||<br>|||TELEFONE|||<br>|||||||(49)|3323-8205|||||<br>|||ENTE|FEDERATIVO|RESPONS\u00c1VEL|(EFR)|||<br>||||||*****||||||<br>|||SITUA\u00c7\u00c3O|CADASTRAL|||<br>||||ATIVA||||<br>|||DATA|DA|SITUA\u00c7\u00c3O|CADASTRAL|||<br>|||19/09/2008|||<br>|||MOTIVO|DE|SITUA\u00c7\u00c3O|CADASTRAL|||<br>||||||||<br>|||SITUA\u00c7\u00c3O|ESPECIAL|||<br>||||********||||<br>|||DATA|DA|SITUA\u00c7\u00c3O|ESPECIAL|||<br>||||********||||<br>||Aprovado|pela|Instru\u00e7\u00e3o|Normativa|RFB|n\u00ba|1.470,|de|30|de|maio|de|2014.|<br>||||||||||||Emitido|no|dia|19/02/2016|\u00e0s||16:36:16||(data|e|hora|de|Bras\u00edlia).|||||||||||||P\u00e1gina:|1/1||||||||<br>Emitido|no|dia|19/02/2016|\u00e0s||16:36:16||(data|e|hora|de|Bras\u00edlia).|<br>P\u00e1gina:|1/1<br>"
 	expected := CnpjData{"10.349.094/0001-62 MATRIZ", "19/09/2008", "CODEROCKR DESENVOLVIMENTO DE PROGRAMAS LTDA - ME", "CODEROCKR & CIA LTDA ME", "62.01-5-01 - Desenvolvimento de programas de computador sob encomenda", "Não informada", "206-2 - SOCIEDADE EMPRESARIA LIMITADA", "R HENRIQUE MEYER", "40", "LOJA1 BOX 1", "89.201-405", "CENTRO", "JOINVILLE", "SC", "adeassisfrutuoso@yahoo.com.br", "(49) 3323-8205", "*****", "ATIVA", "19/09/2008", "", "********", "********"}
-	if v.NumeroInscricao != expected.NumeroInscricao {
+	v := FormatCnpjData(unformated)
+	if v != expected {
 		t.Error(
-			"expected", expected.NumeroInscricao,
-			"got", v.NumeroInscricao,
+			"expected", expected,
+			"got", v,
 		)
 	}
-	if v.DataAbertura != expected.DataAbertura {
+
+	unformated = "||||||||||||||Comprovante|de|Inscri\u00e7\u00e3o|e|de|Situa\u00e7\u00e3o|Cadastral<br>|||Contribuinte,|||<br>Confira|os|dados|de|Identifica\u00e7\u00e3o|da|Pessoa|Jur\u00eddica|e,|se|houver|qualquer|diverg\u00eancia,||||providencie|junto|\u00e0|RFB|a|sua|atualiza\u00e7\u00e3o|cadastral.<br>||||||||||REP\u00daBLICA|FEDERATIVA|DO|BRASIL||||||||||<br>||||||||||CADASTRO|NACIONAL|DA|PESSOA|JUR\u00cdDICA||||||||||<br>|||N\u00daMERO|DE|INSCRI\u00c7\u00c3O|||<br>|||21.101.726/0001-90||||||MATRIZ||||||<br>||||||COMPROVANTE|DE|INSCRI\u00c7\u00c3O|E|DE|SITUA\u00c7\u00c3O|CADASTRAL|||||||<br>|||DATA|DE|ABERTURA|||<br>|||23/09/2014|||<br>|||NOME|EMPRESARIAL|||<br>|||TAMARCADO|SERVICOS|DE|AGENDAMENTO|OLINE|LTDA|||<br>|||T\u00cdTULO|DO|ESTABELECIMENTO|(NOME|DE|FANTASIA)|||<br>||||********|||<br>|||C\u00d3DIGO|E|DESCRI\u00c7\u00c3O|DA|ATIVIDADE|ECON\u00d4MICA|PRINCIPAL|||<br>||||62.02-3-00|-|Desenvolvimento|e|licenciamento|de|programas|de|computador|customiz\u00e1veis||||<br>|||C\u00d3DIGO|E|DESCRI\u00c7\u00c3O|DAS|ATIVIDADES|ECON\u00d4MICAS|SECUND\u00c1RIAS|||<br>||||||74.90-1-04|-|Atividades|de|intermedia\u00e7\u00e3o|e|agenciamento|de|servi\u00e7os|e|neg\u00f3cios|em|geral,|exceto|imobili\u00e1rios||||||<br>|||C\u00d3DIGO|E|DESCRI\u00c7\u00c3O|DA|NATUREZA|JUR\u00cdDICA|||<br>|||206-2|-|SOCIEDADE|EMPRESARIA|LIMITADA|||<br>|||LOGRADOURO|||<br>||||R|BARAO|DO|RIO|BRANCO|||<br>|||N\u00daMERO|||<br>|||149|||<br>|||COMPLEMENTO|||<br>|||SALA||3||||<br>|||CEP|||<br>||||88.350-201||||<br>|||BAIRRO/DISTRITO|||<br>|||CENTRO|||<br>|||MUNIC\u00cdPIO|||<br>|||BRUSQUE|||<br>|||UF|||<br>|||SC|||<br>|||ENDERE\u00c7O|ELETR\u00d4NICO|||<br>||||||||<br>|||TELEFONE|||<br>|||||||(47)|3351-2107|||||<br>|||ENTE|FEDERATIVO|RESPONS\u00c1VEL|(EFR)|||<br>||||||*****||||||<br>|||SITUA\u00c7\u00c3O|CADASTRAL|||<br>||||ATIVA||||<br>|||DATA|DA|SITUA\u00c7\u00c3O|CADASTRAL|||<br>|||23/09/2014|||<br>|||MOTIVO|DE|SITUA\u00c7\u00c3O|CADASTRAL|||<br>||||||||<br>|||SITUA\u00c7\u00c3O|ESPECIAL|||<br>||||********||||<br>|||DATA|DA|SITUA\u00c7\u00c3O|ESPECIAL|||<br>||||********||||<br>||Aprovado|pela|Instru\u00e7\u00e3o|Normativa|RFB|n\u00ba|1.470,|de|30|de|maio|de|2014.|<br>||||||||||||Emitido|no|dia|19/02/2016|\u00e0s||16:10:34||(data|e|hora|de|Bras\u00edlia).|||||||||||||P\u00e1gina:|1/1||||||||<br>Emitido|no|dia|19/02/2016|\u00e0s||16:10:34||(data|e|hora|de|Bras\u00edlia).|<br>P\u00e1gina:|1/1<br>"
+	v = FormatCnpjData(unformated)
+	expected = CnpjData{"21.101.726/0001-90 MATRIZ", "23/09/2014", "TAMARCADO SERVICOS DE AGENDAMENTO OLINE LTDA", "********", "62.02-3-00 - Desenvolvimento e licenciamento de programas de computador customizáveis", "74.90-1-04 - Atividades de intermediação e agenciamento de serviços e negócios em geral, exceto imobiliários", "206-2 - SOCIEDADE EMPRESARIA LIMITADA", "R BARAO DO RIO BRANCO", "149", "SALA3", "88.350-201", "CENTRO", "BRUSQUE", "SC", "", "(47) 3351-2107", "*****", "ATIVA", "23/09/2014", "", "********", "********"}
+	if v != expected {
 		t.Error(
-			"expected", expected.DataAbertura,
-			"got", v.DataAbertura,
-		)
-	}
-	if v.NomeEmpresarial != expected.NomeEmpresarial {
-		t.Error(
-			"expected", expected.NomeEmpresarial,
-			"got", v.NomeEmpresarial,
-		)
-	}
-	if v.NomeFantasia != expected.NomeFantasia {
-		t.Error(
-			"expected", expected.NomeFantasia,
-			"got", v.NomeFantasia,
-		)
-	}
-	if v.AtividadeEconomicaPrincipal != expected.AtividadeEconomicaPrincipal {
-		t.Error(
-			"expected", expected.AtividadeEconomicaPrincipal,
-			"got", v.AtividadeEconomicaPrincipal,
-		)
-	}
-	if v.AtividadeEconomicaSecundaria != expected.AtividadeEconomicaSecundaria {
-		t.Error(
-			"expected", expected.AtividadeEconomicaSecundaria,
-			"got", v.AtividadeEconomicaSecundaria,
-		)
-	}
-	if v.NaturezaJuridica != expected.NaturezaJuridica {
-		t.Error(
-			"expected", expected.NaturezaJuridica,
-			"got", v.NaturezaJuridica,
-		)
-	}
-	if v.Logradouro != expected.Logradouro {
-		t.Error(
-			"expected", expected.Logradouro,
-			"got", v.Logradouro,
-		)
-	}
-	if v.Numero != expected.Numero {
-		t.Error(
-			"expected", expected.Numero,
-			"got", v.Numero,
-		)
-	}
-	if v.Complemento != expected.Complemento {
-		t.Error(
-			"expected", expected.Complemento,
-			"got", v.Complemento,
-		)
-	}
-	if v.Cep != expected.Cep {
-		t.Error(
-			"expected", expected.Cep,
-			"got", v.Cep,
-		)
-	}
-	if v.Bairro != expected.Bairro {
-		t.Error(
-			"expected", expected.Bairro,
-			"got", v.Bairro,
-		)
-	}
-	if v.Municipio != expected.Municipio {
-		t.Error(
-			"expected", expected.Municipio,
-			"got", v.Municipio,
-		)
-	}
-	if v.Uf != expected.Uf {
-		t.Error(
-			"expected", expected.Uf,
-			"got", v.Uf,
-		)
-	}
-	if v.EnderecoEletronico != expected.EnderecoEletronico {
-		t.Error(
-			"expected", expected.EnderecoEletronico,
-			"got", v.EnderecoEletronico,
-		)
-	}
-	if v.Telefone != expected.Telefone {
-		t.Error(
-			"expected", expected.Telefone,
-			"got", v.Telefone,
-		)
-	}
-	if v.EnteFederativoResponsavel != expected.EnteFederativoResponsavel {
-		t.Error(
-			"expected", expected.EnteFederativoResponsavel,
-			"got", v.EnteFederativoResponsavel,
-		)
-	}
-	if v.Situacao != expected.Situacao {
-		t.Error(
-			"expected", expected.Situacao,
-			"got", v.Situacao,
-		)
-	}
-	if v.DataSituacao != expected.DataSituacao {
-		t.Error(
-			"expected", expected.DataSituacao,
-			"got", v.DataSituacao,
-		)
-	}
-	if v.MotivoSituacao != expected.MotivoSituacao {
-		t.Error(
-			"expected", expected.MotivoSituacao,
-			"got", v.MotivoSituacao,
-		)
-	}
-	if v.SituacaoEspecial != expected.SituacaoEspecial {
-		t.Error(
-			"expected", expected.SituacaoEspecial,
-			"got", v.SituacaoEspecial,
-		)
-	}
-	if v.DataSituacaoEspecial != expected.DataSituacaoEspecial {
-		t.Error(
-			"expected", expected.DataSituacaoEspecial,
-			"got", v.DataSituacaoEspecial,
+			"expected", expected,
+			"got", v,
 		)
 	}
 }

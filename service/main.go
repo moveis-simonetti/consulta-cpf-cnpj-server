@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	curl "github.com/andelf/go-curl"
+	iconv "github.com/andelf/iconv-go"
 	"github.com/go-martini/martini"
 	"github.com/ryanuber/go-filecache"
 	"io/ioutil"
@@ -146,16 +147,21 @@ func getCpf(id string, datnasc string, captcha string) string {
 
 	if err := easy.Perform(); err != nil {
 		fmt.Printf("ERROR: %v\n", err)
+		return ""
+	}
+
+	output, err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
+	if err != nil {
+		fmt.Printf("ERROR: %v\n", err)
 	}
 
 	cpfData := ""
-	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((result)))
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((output)))
 	doc.Find("span").Each(func(j int, s *goquery.Selection) {
 		if s.HasClass("clConteudoDados") {
 			cpfData = cpfData + s.Text() + "\n"
 		}
 	})
-
 	if cpfData == "" {
 		return cpfData
 	}
@@ -195,8 +201,6 @@ func getCnpj(id string, captcha string) string {
 	firstUrl.Setopt(curl.OPT_VERBOSE, false)
 	firstUrl.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/valida.asp")
 	postdata := "origem=comprovante&cnpj=" + unformatedId + "&txtTexto_captcha_serpro_gov_br=" + captcha + "&submit1=Consultar&search_type=cnpj"
-	fmt.Printf("Post data: %v\n", postdata)
-	fmt.Printf("Post data: %v\n", len(postdata))
 	firstUrl.Setopt(curl.OPT_POST, true)
 	firstUrl.Setopt(curl.OPT_POSTFIELDS, postdata)
 	firstUrl.Setopt(curl.OPT_POSTFIELDSIZE, len(postdata))
@@ -237,10 +241,16 @@ func getCnpj(id string, captcha string) string {
 
 	if err := lastUrl.Perform(); err != nil {
 		fmt.Printf("ERROR: %v\n", err)
+		return ""
+	}
+
+	output, err := iconv.ConvertString(result, "iso-8859-1", "utf-8")
+	if err != nil {
+		fmt.Printf("ERROR: %v\n", err)
 	}
 
 	cnpjData := ""
-	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((result)))
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader((output)))
 	doc.Find("font").Each(func(j int, s *goquery.Selection) {
 		cnpjData = cnpjData + s.Text() + "<br>"
 	})
@@ -250,7 +260,7 @@ func getCnpj(id string, captcha string) string {
 	if cnpjData == "" {
 		return ""
 	}
-	fmt.Printf("RESULT:%+q\n", cnpjData)
+
 	cnpj := coderockr.FormatCnpjData(cnpjData)
 	json, err := json.Marshal(cnpj)
 	if err != nil {

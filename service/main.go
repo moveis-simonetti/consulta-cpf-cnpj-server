@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"coderockr"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	curl "github.com/andelf/go-curl"
@@ -15,10 +16,9 @@ import (
 	"os"
 	"strings"
 	"time"
-	"errors"
 )
 
-const cacheTime = 500;
+const cacheTime = 500
 
 func main() {
 	m := martini.Classic()

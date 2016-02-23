@@ -280,7 +280,6 @@ func getFromCache(cacheType string, id string) string {
 
 	fh, err := fc.Get()
 	if err != nil {
-		println("error in file")
 		return ""
 	}
 

@@ -4,6 +4,10 @@ Projeto em Golang para buscar dados de CPF/CNPJ e armazenar em cache
 
 # Compilar
 
+O primeiro passo é ter o Go instalado. No site oficial é possível encontrar binários para os principais sistemas operacionais
+
+    https://golang.org
+
 Além de ter o Go instalado no sistema operacional é necessário executar:
 
     export GOPATH=/path/consulta-cpf-cnpj/service

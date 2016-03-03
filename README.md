@@ -10,7 +10,7 @@ O primeiro passo é ter o Go instalado. No site oficial é possível encontrar b
 
 Além de ter o Go instalado no sistema operacional é necessário executar:
 
-    export GOPATH=/path/consulta-cpf-cnpj/service
+    export GOPATH=/path/consulta-cpf-cnpj-server
     go get github.com/PuerkitoBio/goquery
     go get github.com/andelf/go-curl
     go get github.com/go-martini/martini

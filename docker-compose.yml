@@ -1,0 +1,4 @@
+consulta-cpf-cnpj-docker:
+    image: lojassimonetti/consulta-cpf-cnpj-docker
+    ports:
+        - "3000:3000"

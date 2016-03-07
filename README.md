@@ -40,7 +40,7 @@ O primeiro passo é instalar o _docker_ e o _docker compose_ usando os pacotes d
 
 Devido ao fato da imagem ser privada é necessário realizar primeiro o login no Docker Hub com algum usuário que tenha permissão de acesso a imagem. Os comandos para realizar o login e inicializar a imagem são:
 
-    docker login -e email@domain.com -p senha
+    docker login -e email@domain.com -p senha -u usuario
     docker-compose up -d
 
 O primeiro comando é necessário apenas na primeira execução. 

@@ -33,6 +33,22 @@ O binário chamado service será criado. Basta executá-lo e ele ficará ouvindo
 
     kill -9 `ps aux | grep consulta-cpf-cnpj-server/consulta-cpf-cnpj-server`
 
+# Usando o Docker
+
+Uma alternativa é usar o Docker para executar o servidor. 
+O primeiro passo é instalar o _docker_ e o _docker compose_ usando os pacotes do sistema operacional que irá rodar o serviço (Linux, Windows ou Mac OSX). 
+
+Devido ao fato da imagem ser privada é necessário realizar primeiro o login no Docker Hub com algum usuário que tenha permissão de acesso a imagem. Os comandos para realizar o login e inicializar a imagem são:
+
+  docker login -e email@domain.com -p senha
+  docker-compose up -d
+
+O primeiro comando é necessário apenas na primeira execução. 
+
+Para finalizar o serviço basta executar
+
+  docker-compose stop
+
 # Uso
 
 Basta acessar a URL como nos exemplos abaixo

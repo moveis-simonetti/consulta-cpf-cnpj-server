@@ -19,6 +19,7 @@ import (
 )
 
 const cacheTime = 500
+const prefixSefaz = "https://www.receita.fazenda.gov.br/Aplicacoes/SSL/ATCTA/";
 
 func main() {
 	m := martini.Classic()
@@ -68,7 +69,7 @@ func getCaptcha(captchaType string, id string) string {
 	easy.Setopt(curl.OPT_COOKIEJAR, "cache/"+captchaType+"/"+id+"/cookie.jar")
 	easy.Setopt(curl.OPT_VERBOSE, true)
 	if captchaType == "cpf" {
-		easy.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/Aplicacoes/ATCTA/CPF/captcha/gerarCaptcha.asp")
+		easy.Setopt(curl.OPT_URL, prefixSefaz + "CPF/captcha/gerarCaptcha.asp")
 	}
 	if captchaType == "cnpj" {
 		easy.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/captcha/gerarCaptcha.asp")
@@ -130,14 +131,14 @@ func getCpf(id string, datnasc string, captcha string) string {
 	id = coderockr.FormatCpf(id)
 	datnasc = coderockr.FormatData(datnasc)
 
-	easy.Setopt(curl.OPT_HTTPHEADER, []string{"Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Content-Type:application/x-www-form-urlencoded", "refer:http://www.receita.fazenda.gov.br/aplicacoes/atcta/cpf/ConsultaPublica.asp", "Cookie:" + cookie})
+	easy.Setopt(curl.OPT_HTTPHEADER, []string{"Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Content-Type:application/x-www-form-urlencoded", "refer:" + prefixSefaz + "cpf/ConsultaPublica.asp", "Cookie:" + cookie})
 	easy.Setopt(curl.OPT_VERBOSE, true)
-	easy.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/aplicacoes/atcta/cpf/ConsultaPublicaExibir.asp")
+	easy.Setopt(curl.OPT_URL, prefixSefaz + "cpf/ConsultaPublicaExibir.asp")
 	postdata := "txtTexto_captcha_serpro_gov_br=" + captcha + "&tempTxtCPF=" + id + "&tempTxtNascimento=" + datnasc + "&temptxtToken_captcha_serpro_gov_br=\"\"&temptxtTexto_captcha_serpro_gov_br=" + captcha + "&Enviar=Consultar"
 	easy.Setopt(curl.OPT_POST, true)
 	easy.Setopt(curl.OPT_POSTFIELDS, postdata)
 	easy.Setopt(curl.OPT_POSTFIELDSIZE, len(postdata))
-
+    
 	result := " "
 
 	// make a callback function

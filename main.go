@@ -87,6 +87,7 @@ func getCaptcha(captchaType string, id string) string {
 	defer fp.Close() // defer close
 
 	easy.Setopt(curl.OPT_WRITEDATA, fp)
+  easy.Setopt(curl.OPT_SSL_VERIFYPEER, false)
 
 	easy.Setopt(curl.OPT_VERBOSE, true)
 
@@ -138,7 +139,8 @@ func getCpf(id string, datnasc string, captcha string) string {
 	easy.Setopt(curl.OPT_POST, true)
 	easy.Setopt(curl.OPT_POSTFIELDS, postdata)
 	easy.Setopt(curl.OPT_POSTFIELDSIZE, len(postdata))
-    
+	easy.Setopt(curl.OPT_SSL_VERIFYPEER, false)
+
 	result := " "
 
 	// make a callback function

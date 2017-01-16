@@ -1,4 +1,12 @@
-consulta-cpf-cnpj-docker:
-    image: lojassimonetti/consulta-cpf-cnpj-docker
-    ports:
-        - "3000:3000"
+version: '2'
+services:
+  consulta-cpf-cnpj-docker:
+      build:
+        context: .
+        args:
+          - http_proxy=${http_proxy}
+          - https_proxy=${http_proxy}
+      volumes:
+        - ./:/usr/local/consulta-cpf-cnpj-server
+      ports:
+          - "3000:3000"

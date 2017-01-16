@@ -4,3 +4,4 @@ src/golang.org
 pkg
 service
 consulta-cpf-cnpj-server
+.env

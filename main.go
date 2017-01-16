@@ -134,7 +134,7 @@ func getCpf(id string, datnasc string, captcha string) string {
 
 	easy.Setopt(curl.OPT_HTTPHEADER, []string{"Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Content-Type:application/x-www-form-urlencoded", "refer:" + prefixSefaz + "cpf/ConsultaPublica.asp", "Cookie:" + cookie})
 	easy.Setopt(curl.OPT_VERBOSE, true)
-	easy.Setopt(curl.OPT_URL, prefixSefaz + "cpf/ConsultaPublicaExibir.asp")
+	easy.Setopt(curl.OPT_URL, prefixSefaz + "CPF/ConsultaSituacao/ConsultaPublicaExibir.asp")
 	postdata := "txtTexto_captcha_serpro_gov_br=" + captcha + "&tempTxtCPF=" + id + "&tempTxtNascimento=" + datnasc + "&temptxtToken_captcha_serpro_gov_br=\"\"&temptxtTexto_captcha_serpro_gov_br=" + captcha + "&Enviar=Consultar"
 	easy.Setopt(curl.OPT_POST, true)
 	easy.Setopt(curl.OPT_POSTFIELDS, postdata)

@@ -69,7 +69,7 @@ func getCaptcha(captchaType string, id string) string {
 	easy.Setopt(curl.OPT_COOKIEJAR, "cache/"+captchaType+"/"+id+"/cookie.jar")
 	easy.Setopt(curl.OPT_VERBOSE, true)
 	if captchaType == "cpf" {
-		easy.Setopt(curl.OPT_URL, prefixSefaz + "ConsultaSituacao/captcha/gerarCaptcha.asp")
+		easy.Setopt(curl.OPT_URL, prefixSefaz + "CPF/ConsultaSituacao/captcha/gerarCaptcha.asp")
 	}
 	if captchaType == "cnpj" {
 		easy.Setopt(curl.OPT_URL, "http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/captcha/gerarCaptcha.asp")
